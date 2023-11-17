@@ -61,20 +61,21 @@ class AnalizadorLexico:
                 (r'\d+\.\d*|\.\d+', 'NUMERO_REAL'),  # Número real (por ejemplo, 0.14 o .14)
                 (r'\d+', 'NUMERO_NATURAL'),  # Número natural (por ejemplo, 5)
                 (r'(if|else|while|for|return|function)\b', 'PALABRA_RESERVADA'),  # Palabras reservadas
-                (r'[a-zA-Z_]\w*', 'IDENTIFICADOR'),  # Identificador (por ejemplo, variable) w: Caracter
-                (r'(\+|-|\*|/)', 'OPERADOR_ARITMETICO'),  # Operadores aritméticos
-               # (r'(>=|<=)', 'OPERADOR_COMPARACION'),  # Operadores >= y <=
+                (r'[a-zA-Z_]\w{0,9}', 'IDENTIFICADOR'),  # Identificador (por ejemplo, variable) w: Caracter
+                (r'(\+\+|--)', 'OPERADOR_INCREMENTO_DECREMENTO'),  # Operadores de incremento/decremento
                 (r'(==|!=|<=|>=|<|>)', 'OPERADOR_COMPARACION'),  # Operadores de comparación
+                (r'[-+*/]?=', 'OPERADOR_ASIGNACION'),# Operador de asignación
+                #(r'=[\+\-\*/]?', 'OPERADOR_ASIGNACION'),  
+                (r'(\+|-|\*|/)', 'OPERADOR_ARITMETICO'),  # Operadores aritméticos
                 (r'!\*[\s\S]*?\*!', 'COMENTARIO_EN_BLOQUE'),
                 (r'!.*', 'COMENTARIO_LINEA'),  # Comentario de línea con "!"
                 (r'(&&|\|\|)', 'OPERADOR_LOGICO'),  # Operadores lógicos
-                (r'=', 'OPERADOR_ASIGNACION'),  # Operador de asignación
-                (r'(\+\+|--)', 'OPERADOR_INCREMENTO_DECREMENTO'),  # Operadores de incremento/decremento
                 (r'(\(|\))', 'PARENTESIS'),  # Paréntesis
                 (r'(\{|})', 'LLAVES'),  # Llaves
                 (r';', 'TERMINAL'),  # Terminal
                 (r',', 'SEPARADOR'),  # Separador
-                (r'"[^"]*"', 'CADENA_CARACTERES')  # Cadena de caracteres
+                (r'"[^"]*"', 'CADENA_CARACTERES') # Cadena de caracteres
+              
                 
     ]:
             

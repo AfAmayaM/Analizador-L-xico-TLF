@@ -8,7 +8,7 @@ class App:
         self.root = root
         root.title("My First")
 
-        self.codigo_text = scrolledtext.ScrolledText(root, width=40, height=10)
+        self.codigo_text = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=40, height=10)
         self.codigo_text.pack(pady=10)
 
         self.analizar_button = tk.Button(root, text="Analizar", command=self.analizar)
@@ -19,6 +19,15 @@ class App:
         self.tabla_tokens.heading("#2", text="Categoría")
         self.tabla_tokens.heading("#3", text="Posición")
         self.tabla_tokens.pack(pady=10)
+
+        # Configurar el ancho de las columnas
+        self.tabla_tokens.column("#1", stretch=tk.YES)
+        self.tabla_tokens.column("#2", stretch=tk.YES)
+        self.tabla_tokens.column("#3", stretch=tk.YES)
+
+        # Configurar el encabezado para que se ajuste al contenido
+        for col in ("#1", "#2", "#3"):
+            self.tabla_tokens.heading(col, anchor=tk.W)
 
     def analizar(self):
         codigo = self.codigo_text.get("1.0", "end-1c")
@@ -37,6 +46,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
     root.mainloop()
+
 
      # Ejemplo de código para análisis
     codigo_de_prueba = """! Esto es un comentario de línea
