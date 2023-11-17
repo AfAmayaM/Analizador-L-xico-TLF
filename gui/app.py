@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import scrolledtext  # Para área de texto scrollable
-from tkinter import ttk  # Para utilizar widgets ttk como Treeview
-from AnalizadorLexico import AnalizadorLexico  # Clase analizador léxico
+from tkinter import scrolledtext, ttk
+from analizador_lexico.AnalizadorLexico import AnalizadorLexico
 
 
 # Clase principal de la interfaz

@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from analizador_lexico.AnalizadorLexico import AnalizadorLexico
 
-from AnalizadorLexico import AnalizadorLexico
+
 
 class Interface:
     """

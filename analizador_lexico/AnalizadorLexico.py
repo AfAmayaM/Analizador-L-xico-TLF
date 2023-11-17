@@ -1,5 +1,6 @@
 import re
-from Token import Token  
+from .Token import Token
+
 
 class AnalizadorLexico:
     """
