@@ -2,12 +2,24 @@ import re
 from Token import Token  
 
 class AnalizadorLexico:
+    """
+    Clase que representa un analizador léxico para un lenguaje de programación.
+    """
 
     def __init__(self):
         # Inicializa una lista vacía para guardar los tokens 
         self.tokens = []
 
     def analizar_codigo(self, codigo):
+        """
+        Analiza el código fuente y devuelve una lista de tokens encontrados.
+
+        Args:
+            codigo (str): El código fuente a analizar.
+
+        Returns:
+            list: Una lista de objetos Token que representan los tokens encontrados en el código.
+        """
         
         # Inicializa la lista de tokens
         self.tokens = []
@@ -162,3 +174,7 @@ class AnalizadorLexico:
 
         # Retorna lista de tokens 
         return self.tokens
+    
+
+
+    
