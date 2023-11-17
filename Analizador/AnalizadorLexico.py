@@ -2,15 +2,25 @@ import re
 from Token import Token  
 
 class AnalizadorLexico:
+
     def __init__(self):
+        # Inicializa una lista vacía para guardar los tokens 
         self.tokens = []
 
     def analizar_codigo(self, codigo):
+        
+        # Inicializa la lista de tokens
         self.tokens = []
+        
+        # Posición actual en el codigo
         posicion = 0
+        
+        # Número de línea actual
         linea = 1
+        
         '''
-  # Definir patrones regulares para tokens (los mismos que mencionaste)
+        # Comentarios con ejemplos de patrones regulares para los tokens
+        
         patron_numero_natural = r'\d+'
         patron_numero_real = r'\d+\.\d+'
         patron_identificador = r'[a-zA-Z_]\w{0,9}'
@@ -28,73 +38,127 @@ class AnalizadorLexico:
         patron_comentario_linea = r'//.*'
         patron_comentario_bloque_inicio = r'/\*'
         patron_comentario_bloque_fin = r'\*/'
-
+        '''
+        
+        # Bucle principal que recorre el código caracter por caracter
         while posicion < len(codigo):
-            match = None
-            for patron, categoria in [
-                (patron_numero_natural, 'NUMERO_NATURAL'),
-                (patron_numero_real, 'NUMERO_REAL'),
-                (patron_identificador, 'IDENTIFICADOR'),
-                (patron_palabra_reservada, 'PALABRA_RESERVADA'),
-                (patron_operador_aritmetico, 'OPERADOR_ARITMETICO'),
-                (patron_operador_comparacion, 'OPERADOR_COMPARACION'),
-                (patron_operador_logico, 'OPERADOR_LOGICO'),
-                (patron_operador_asignacion, 'OPERADOR_ASIGNACION'),
-                (patron_operador_incremento_decremento, 'OPERADOR_INCREMENTO_DECREMENTO'),
-                (patron_parentesis, 'PARENTESIS'),
-                (patron_llaves, 'LLAVES'),
-                (patron_terminal, 'TERMINAL'),
-                (patron_separador, 'SEPARADOR'),
-                (patron_cadena_caracteres, 'CADENA_CARACTERES')
-            ]:
-            '''
-        while posicion < len(codigo):
+            
             # Saltar espacios en blanco y contar saltos de línea
             while posicion < len(codigo) and codigo[posicion].isspace():
                 if codigo[posicion] == '\n':
                     linea += 1
                 posicion += 1
 
+            # Inicializar match 
             match = None
-            for patron, categoria in [
-                (r'0[xX][0-9a-fA-F]+', 'NUMERO_HEXADECIMAL'),  # Número hexadecimal (por ejemplo, 0x1A o 0XFF)
-                (r'\d+\.\d*|\.\d+', 'NUMERO_REAL'),  # Número real (por ejemplo, 0.14 o .14)
-                (r'\d+', 'NUMERO_NATURAL'),  # Número natural (por ejemplo, 5)
-                (r'(if|else|while|for|return|function)\b', 'PALABRA_RESERVADA'),  # Palabras reservadas
-                (r'[a-zA-Z_]\w{0,9}', 'IDENTIFICADOR'),  # Identificador (por ejemplo, variable) w: Caracter
-                (r'(\+\+|--)', 'OPERADOR_INCREMENTO_DECREMENTO'),  # Operadores de incremento/decremento
-                (r'(==|!=|<=|>=|<|>)', 'OPERADOR_COMPARACION'),  # Operadores de comparación
-                (r'[-+*/]?=', 'OPERADOR_ASIGNACION'),# Operador de asignación
-                #(r'=[\+\-\*/]?', 'OPERADOR_ASIGNACION'),  
-                (r'(\+|-|\*|/)', 'OPERADOR_ARITMETICO'),  # Operadores aritméticos
-                (r'!\*[\s\S]*?\*!', 'COMENTARIO_EN_BLOQUE'),
-                (r'!.*', 'COMENTARIO_LINEA'),  # Comentario de línea con "!"
-                (r'(&&|\|\|)', 'OPERADOR_LOGICO'),  # Operadores lógicos
-                (r'(\(|\))', 'PARENTESIS'),  # Paréntesis
-                (r'(\{|})', 'LLAVES'),  # Llaves
-                (r';', 'TERMINAL'),  # Terminal
-                (r',', 'SEPARADOR'),  # Separador
-                (r'"[^"]*"', 'CADENA_CARACTERES') # Cadena de caracteres
-              
-                
-    ]:
             
+            # Lista de pares patrón - categoría 
+            for patron, categoria in [
+                
+                # Ejemplos de patrones
+
+                
+                # Número hexadecimal (por ejemplo, 0x1A o 0XFF)
+                (r'0[xX][0-9a-fA-F]+', 'NUMERO_HEXADECIMAL'),
+
+                # Número real (por ejemplo, 0.14 o .14)
+                (r'\d+\.\d*|\.\d+', 'NUMERO_REAL'),
+                
+                # Número natural (por ejemplo, 5) 
+                (r'\d+', 'NUMERO_NATURAL'),
+                
+                
+                (r'(if|else|while|for|return|function)\b', 'PALABRA_RESERVADA'),
+
+                # Identificador (por ejemplo, variable)
+                (r'[a-zA-Z_]\w{0,9}', 'IDENTIFICADOR'),
+
+
+                # Operadores de incremento/decremento
+                (r'(\+\+|--)', 'OPERADOR_INCREMENTO_DECREMENTO'),
+
+
+                # Operadores de comparación
+                (r'(==|!=|<=|>=|<|>)', 'OPERADOR_COMPARACION'),
+                
+
+                # Operador de asignación 
+                (r'[-+*/]?=', 'OPERADOR_ASIGNACION'),
+                
+
+                # Operadores aritméticos
+                (r'(\+|-|\*|/)', 'OPERADOR_ARITMETICO'),
+                
+
+                # Comentario de múltiples líneas
+                (r'!\*[\s\S]*?\*!', 'COMENTARIO_EN_BLOQUE'),
+                
+
+                # Comentario de línea con "!"
+                (r'!.*', 'COMENTARIO_LINEA'),
+                
+
+                # Operadores lógicos
+                (r'(&&|\|\|)', 'OPERADOR_LOGICO'),
+                
+
+                # Paréntesis  
+                (r'(\(|\))', 'PARENTESIS'),
+                
+
+                # Llaves
+                (r'(\{|})', 'LLAVES'),
+                
+                # Punto y coma 
+                (r';', 'TERMINAL'),
+                
+
+                # Coma
+                (r',', 'SEPARADOR'),
+                
+
+                # Cadena de caracteres
+                (r'"[^"]*"', 'CADENA_CARACTERES')
+              
+            ]:
+                
+                # Compila la expresión regular
                 regex = re.compile(patron)
+                
+                # Busca match desde la posición actual
                 match = regex.match(codigo, posicion)
+                
+                # Si encuentra match
                 if match:
+                
+                    # Obtiene el lexema
                     lexema = match.group(0)
+                    
+                    # Crea un token con los datos del match
                     self.tokens.append(Token(lexema, categoria, linea, match.start()))
+                    
+                    # Actualiza la posición después del match
                     posicion = match.end()
+                    
+                    # Rompe el bucle interior
                     break
 
+            # Si no hubo match
             if not match:
-                # Si no se encuentra una coincidencia, se considera un token no reconocido
-                error_posicion = codigo.find(' ', posicion)
+                
+                # Busca espacio después de posición para lexema erróneo
+                error_posicion = codigo.find(' ', posicion)  
                 lexema = codigo[posicion:error_posicion] if error_posicion != -1 else codigo[posicion:]
+                
+                # Crea token erróneo
                 self.tokens.append(Token(lexema, 'TOKEN_NO_RECONOCIDO', linea, posicion))
+                
+                # Actualiza posición 
                 posicion += len(lexema)
 
+            # Incrementa línea si encuentra salto 
             if lexema == '\n':
                 linea += 1
 
+        # Retorna lista de tokens 
         return self.tokens
