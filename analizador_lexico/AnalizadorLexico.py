@@ -56,81 +56,81 @@ class AnalizadorLexico:
         # Bucle principal que recorre el código caracter por caracter
         while posicion < len(codigo):
             
-            # Saltar espacios en blanco y contar saltos de línea
+            # esta porsion de codigo se encarga de Saltar espacios en blanco y contar saltos de línea
             while posicion < len(codigo) and codigo[posicion].isspace():
                 if codigo[posicion] == '\n':
                     linea += 1
                 posicion += 1
 
-            # Inicializar match 
+            # Inicializar coincidencias en los patrones 
             match = None
             
             # Lista de pares patrón - categoría 
             for patron, categoria in [
                 
-                # Ejemplos de patrones
+                # aqui estam las expresiones regulares
 
                 
-                # Número hexadecimal (por ejemplo, 0x1A o 0XFF)
+                # expresion regular para Número hexadecimal (por ejemplo, 0x1A o 0XFF)
                 (r'0[xX][0-9a-fA-F]+', 'NUMERO_HEXADECIMAL'),
 
-                # Número real (por ejemplo, 0.14 o .14)
+                # expresion regular para Número real (por ejemplo, 0.14 o .14)
                 (r'\d+\.\d*|\.\d+', 'NUMERO_REAL'),
                 
-                # Número natural (por ejemplo, 5) 
+                # expresion regular para Número natural (por ejemplo, 5) 
                 (r'\d+', 'NUMERO_NATURAL'),
                 
-                
+                # expresion regular para las palabras reservadas
                 (r'(if|else|while|for|return|function)\b', 'PALABRA_RESERVADA'),
 
-                # Identificador (por ejemplo, variable)
+                # expresion regular para Identificador (por ejemplo, variable)
                 (r'[a-zA-Z_]\w{0,9}', 'IDENTIFICADOR'),
 
 
-                # Operadores de incremento/decremento
+                # expresion regular para Operadores de incremento/decremento
                 (r'(\+\+|--)', 'OPERADOR_INCREMENTO_DECREMENTO'),
 
 
-                # Operadores de comparación
+                # expresion regular para Operadores de comparación
                 (r'(==|!=|<=|>=|<|>)', 'OPERADOR_COMPARACION'),
                 
 
-                # Operador de asignación 
+                # expresion regular para Operador de asignación 
                 (r'[-+*/]?=', 'OPERADOR_ASIGNACION'),
                 
 
-                # Operadores aritméticos
+                # expresion regular para Operadores aritméticos
                 (r'(\+|-|\*|/)', 'OPERADOR_ARITMETICO'),
                 
 
-                # Comentario de múltiples líneas
+                # expresion regular para Comentario de múltiples líneas
                 (r'!\*[\s\S]*?\*!', 'COMENTARIO_EN_BLOQUE'),
                 
 
-                # Comentario de línea con "!"
+                # expresion regular para Comentario de línea con "!"
                 (r'!.*', 'COMENTARIO_LINEA'),
                 
 
-                # Operadores lógicos
+                # expresion regular para Operadores lógicos
                 (r'(&&|\|\|)', 'OPERADOR_LOGICO'),
                 
 
-                # Paréntesis  
+                # expresion regular para Paréntesis  
                 (r'(\(|\))', 'PARENTESIS'),
                 
 
-                # Llaves
+                # expresion regular para Llaves
                 (r'(\{|})', 'LLAVES'),
                 
-                # Punto y coma 
+                # expresion regular para Punto y coma 
                 (r';', 'TERMINAL'),
                 
 
-                # Coma
+                # expresion regular para Coma
                 (r',', 'SEPARADOR'),
                 
 
-                # Cadena de caracteres
+                # expresion regular para Cadena de caracteres
                 (r'"[^"]*"', 'CADENA_CARACTERES')
               
             ]:
@@ -138,10 +138,10 @@ class AnalizadorLexico:
                 # Compila la expresión regular
                 regex = re.compile(patron)
                 
-                # Busca match desde la posición actual
+                # Busca la coincidencia desde la posición actual
                 match = regex.match(codigo, posicion)
                 
-                # Si encuentra match
+                # Si encuentra coincidencia
                 if match:
                 
                     # Obtiene el lexema
@@ -150,13 +150,13 @@ class AnalizadorLexico:
                     # Crea un token con los datos del match
                     self.tokens.append(Token(lexema, categoria, linea, match.start()))
                     
-                    # Actualiza la posición después del match
+                    # Actualiza la posición después de la coincidencia
                     posicion = match.end()
                     
                     # Rompe el bucle interior
                     break
 
-            # Si no hubo match
+            # Si no hubo coincidencia
             if not match:
                 
                 # Busca espacio después de posición para lexema erróneo
